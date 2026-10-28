@@ -135,7 +135,9 @@ def train_and_score() -> tuple[pd.DataFrame, pd.DataFrame]:
         )
 
     snapshot["rule_risk"] = rule_based_risk(snapshot)
-    snapshot["availability_risk"] = model.predict_proba(snapshot[features])[:, 1]
+    snapshot["availability_risk"] = np.clip(
+        model.predict_proba(snapshot[features])[:, 1], 0.02, 0.98
+    )
     snapshot["availability_confidence"] = (
         100 * (1 - snapshot["availability_risk"])
     ).round(1)

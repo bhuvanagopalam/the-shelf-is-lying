@@ -85,7 +85,7 @@ def executive_view(data: dict[str, pd.DataFrame]) -> None:
             labels={"recommended_action": "", "actions": "Funded actions"},
         )
         figure.update_layout(showlegend=False)
-        st.plotly_chart(figure, use_container_width=True)
+        st.plotly_chart(figure)
 
     with right:
         policy = data["policy"].sort_values("gross_margin_recovered")
@@ -99,7 +99,7 @@ def executive_view(data: dict[str, pd.DataFrame]) -> None:
         )
         figure.update_xaxes(tickprefix="$", tickformat=",")
         figure.update_layout(showlegend=False)
-        st.plotly_chart(figure, use_container_width=True)
+        st.plotly_chart(figure)
 
     st.info(
         "The proposed policy is not trying to find the most anomalies. It prioritizes "
@@ -119,7 +119,8 @@ def investigation_view(data: dict[str, pd.DataFrame]) -> None:
     ].iloc[0]
 
     store_actions = actions[actions["store_id"].eq(store_id)].sort_values(
-        "availability_risk", ascending=False
+        ["funded_this_week", "value_per_labor_hour", "availability_risk"],
+        ascending=False,
     )
     product_label = st.selectbox(
         "Product",
@@ -162,7 +163,7 @@ def investigation_view(data: dict[str, pd.DataFrame]) -> None:
         yaxis_title="Units",
         hovermode="x unified",
     )
-    st.plotly_chart(figure, use_container_width=True)
+    st.plotly_chart(figure)
 
     item_returns = returns[
         returns["store_id"].eq(store_id) & returns["product_id"].eq(product_id)
@@ -190,7 +191,7 @@ def investigation_view(data: dict[str, pd.DataFrame]) -> None:
                 ]
             ].tail(20),
             hide_index=True,
-            use_container_width=True,
+            width="stretch",
         )
 
 
@@ -237,7 +238,7 @@ def clearance_view(data: dict[str, pd.DataFrame]) -> None:
             title=f"{store_label} clearance mix",
             labels={"category": "", "clearance_units": "Units"},
         )
-        st.plotly_chart(figure, use_container_width=True)
+        st.plotly_chart(figure)
 
     with right:
         figure = px.scatter(
@@ -255,7 +256,7 @@ def clearance_view(data: dict[str, pd.DataFrame]) -> None:
         )
         figure.update_xaxes(tickformat=".0%")
         figure.update_yaxes(tickformat=".0%")
-        st.plotly_chart(figure, use_container_width=True)
+        st.plotly_chart(figure)
 
     st.dataframe(
         store_detail[
@@ -271,7 +272,7 @@ def clearance_view(data: dict[str, pd.DataFrame]) -> None:
         .sort_values(["pickup_cancelled_7d", "clearance_units"], ascending=False)
         .head(20),
         hide_index=True,
-        use_container_width=True,
+        width="stretch",
     )
 
 
@@ -316,7 +317,7 @@ def action_plan_view(data: dict[str, pd.DataFrame]) -> None:
             ]
         ],
         hide_index=True,
-        use_container_width=True,
+        width="stretch",
         column_config={
             "expected_margin_recovered": st.column_config.NumberColumn(
                 "Expected margin", format="$%.2f"
