@@ -480,6 +480,7 @@ def simulate_retail(
                     book_inventory > 0
                     and findable_units / book_inventory < 0.50
                 )
+                count_age_before_audit = day_number - last_count_day
 
                 audit_probability = 0.004
                 audit_probability += 0.025 if pickup_cancelled > 0 else 0
@@ -576,7 +577,7 @@ def simulate_retail(
                         "receipt_units": receipt_units,
                         "inventory_adjustment": inventory_adjustment,
                         "days_since_sale": day_number - last_sale_day,
-                        "days_since_verified_count": day_number - last_count_day,
+                        "days_since_verified_count": count_age_before_audit,
                         "availability_gap": availability_gap,
                     }
                 )

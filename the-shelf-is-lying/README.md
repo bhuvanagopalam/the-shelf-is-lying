@@ -10,18 +10,33 @@ The case study follows a fictional back-to-campus collection across 24 stores. I
 
 The operational data is synthetic. It is designed from explicit retail rules so that the hidden physical state is known for evaluation. It does **not** represent Target data or Target operating procedures.
 
-## Project status
-
-Implementation is in progress. The first milestone creates the synthetic store, product, inventory, return, pickup, markdown, and audit tables.
-
 ## Run locally
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python src/generate_data.py
+python src/run_pipeline.py
+streamlit run app.py
 ```
 
 Generated CSV files are written to `data/raw/` and are intentionally excluded from Git.
+
+## What is included
+
+- A reproducible simulation of stores, products, inventory locations, returns, markdowns, pickup attempts, and physical audits
+- A clear business-rule risk baseline and one interpretable availability model
+- Store clearance fingerprints that distinguish local assortment from operational warning signs
+- A recommendation policy that ranks actions by expected value under a labor budget
+- A four-view Streamlit presentation and a short leadership summary
+
+## Deliberate limits
+
+The project does not include an API, database, cloud deployment, chatbot, or large model comparison. The code is organized around the business questions and can be read from the data generation through the recommendation.
+
+Run the small set of business-rule checks with:
+
+```bash
+python -m unittest discover -s tests
+```
 
