@@ -1,0 +1,16 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.streamlit/
+
+# Generated project data and figures
+the-shelf-is-lying/data/raw/*.csv
+the-shelf-is-lying/data/processed/*.csv
+the-shelf-is-lying/reports/figures/*
+
+# Keep directory placeholders
+!the-shelf-is-lying/data/raw/.gitkeep
+!the-shelf-is-lying/data/processed/.gitkeep
+!the-shelf-is-lying/reports/figures/.gitkeep
